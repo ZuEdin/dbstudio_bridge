@@ -1,0 +1,42 @@
+{
+  "name": "db-studio-local-bridge",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Local Agent & Execution Bridge UI for DB Studio Online Code Generation",
+  "scripts": {
+    "dev": "vite",
+    "server": "node server/server.js",
+    "bridge": "concurrently -n \"SERVER,UI\" -c \"blue,magenta\" \"node server/server.js\" \"vite\"",
+    "tauri": "tauri",
+    "tauri:dev": "tauri dev",
+    "tauri:build": "tauri build",
+    "build": "tsc && vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "adm-zip": "^0.6.0",
+    "basic-ftp": "^6.2.0",
+    "concurrently": "^10.0.5",
+    "cors": "^2.8.6",
+    "cross-env": "^10.1.0",
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1",
+    "lucide-react": "^1.16.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "ws": "^8.21.3"
+  },
+  "devDependencies": {
+    "@tauri-apps/api": "^1.6.0",
+    "@tauri-apps/cli": "^1.6.3",
+    "@types/react": "^18.3.3",
+    "@types/react-dom": "^18.3.0",
+    "@vitejs/plugin-react": "^4.3.1",
+    "autoprefixer": "^10.4.19",
+    "postcss": "^8.4.38",
+    "tailwindcss": "^3.4.4",
+    "typescript": "^5.4.5",
+    "vite": "^5.2.11"
+  }
+}

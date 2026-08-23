@@ -1,0 +1,33 @@
+{
+  "name": "fakturierungpro-desktop",
+  "version": "1.0.0",
+  "description": "Desktop version of FakturierungPro",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "electron:dev": "npm run build && electron .",
+    "build": "node copy-dist.js",
+    "electron:build": "npm run build && electron-builder"
+  },
+  "build": {
+    "appId": "com.mgdesk.app",
+    "directories": {
+       "output": "release"
+    },
+    "files": [
+       "dist/**/*",
+       "Frontend/**/*",
+       "Backend/**/*",
+       "main.js",
+       "preload.js",
+       "package.json"
+    ]
+  },
+  "devDependencies": {
+    "electron": "^33.3.0",
+    "electron-builder": "^24.13.3",
+    "concurrently": "^8.2.2",
+    "wait-on": "^7.2.0",
+    "cross-env": "^7.0.3"
+  }
+}

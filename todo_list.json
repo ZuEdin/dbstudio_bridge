@@ -1,0 +1,92 @@
+[
+  {
+    "id": "todo_1",
+    "title": "Automatischen Tauri-Icon Download & Fallback-Provisioning absichern",
+    "category": "Tauri & Desktop",
+    "priority": "Kritisch",
+    "status": "Erledigt",
+    "assignee": "Bridge Daemon",
+    "description": "Fehlende Tauri-Icons (ico, icns, png) bei jedem Generierungs- und Startzyklus automatisch aus dem lokalen Cache oder GitHub nachladen."
+  },
+  {
+    "id": "todo_2",
+    "title": "Hardcoded Mock-Projekte aus Übersicht & Workspaces entfernen",
+    "category": "Frontend & UI",
+    "priority": "Hoch",
+    "status": "Erledigt",
+    "assignee": "Frontend Team",
+    "description": "Bereinigung von veralteten Testdaten. Zeige stattdessen einen sauberen Leere-Zustand."
+  },
+  {
+    "id": "todo_3",
+    "title": "Echtzeit-Dateisystem-Watcher für Workspace-Verzeichnis (Phase 1)",
+    "category": "Backend & Daemon",
+    "priority": "Hoch",
+    "status": "Erledigt",
+    "assignee": "Backend Team",
+    "description": "Überwacht settings.projectsDir mit workspaceWatcher.js und aktualisiert die Projektliste live via WebSockets."
+  },
+  {
+    "id": "todo_4",
+    "title": "Windows Autostart & Background Daemon (Phase 2)",
+    "category": "System",
+    "priority": "Hoch",
+    "status": "Erledigt",
+    "assignee": "Backend Team",
+    "description": "1-Klick-Steuerung in den Einstellungen zur Registrierung in der Windows-Aufgabenplanung (schtasks.exe)."
+  },
+  {
+    "id": "todo_5",
+    "title": "SFTP Deployment-Profile & Remote-Healthchecks (Phase 3)",
+    "category": "Deployments",
+    "priority": "Mittel",
+    "status": "Erledigt",
+    "assignee": "DevOps",
+    "description": "Unterstützung für mehrere Zielserver und automatisierte Testaufrufe nach dem FTP-Upload mit Latenzmessung."
+  },
+  {
+    "id": "todo_6",
+    "title": "Datenbank- & Schema-Explorer in Bridge UI integriert (Phase 4)",
+    "category": "Datenbank",
+    "priority": "Hoch",
+    "status": "Erledigt",
+    "assignee": "Fullstack Team",
+    "description": "Eigener Tab mit Tabellenansicht, Spalteninspektor und SQL Query Console für SQLite-Dateien."
+  },
+  {
+    "id": "todo_7",
+    "title": "Offline Template-Generator & Scaffold Engine (Phase 5)",
+    "category": "Core & Tooling",
+    "priority": "Hoch",
+    "status": "Erledigt",
+    "assignee": "Fullstack Team",
+    "description": "1-Klick Erstellung von Fullstack .NET + React, Tauri, Electron und Microservice Projekten."
+  },
+  {
+    "id": "todo_8",
+    "title": "CI/CD Pipeline Generator für GitHub Actions & GitLab CI (Phase 6)",
+    "category": "DevOps",
+    "priority": "Mittel",
+    "status": "Erledigt",
+    "assignee": "DevOps",
+    "description": "Automatische Generierung von .github/workflows und .gitlab-ci.yml für Repositories."
+  },
+  {
+    "id": "todo_9",
+    "title": "Docker Compose Multi-Container Orchestrierung (Phase 7)",
+    "category": "Deployments",
+    "priority": "Mittel",
+    "status": "Erledigt",
+    "assignee": "DevOps",
+    "description": "1-Klick Bereitstellung von MySQL, PostgreSQL, Redis und Mailpit Containern."
+  },
+  {
+    "id": "todo_10",
+    "title": "Microsoft Access Migration Engine (.accdb & .mdb) - Phase 8",
+    "category": "Datenbank",
+    "priority": "Kritisch",
+    "status": "Offen",
+    "assignee": "Datenbank & Migration",
+    "description": "Ermöglicht das Ablegen von .accdb/.mdb Dateien zur automatisierten Übersetzung in moderne SQL-Schemas und Abfragen. Beziehungen werden anschließend in DB Studio neu definiert."
+  }
+]

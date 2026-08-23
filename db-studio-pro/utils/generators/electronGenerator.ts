@@ -1,0 +1,1 @@
+export { generateElectron } from './electron';

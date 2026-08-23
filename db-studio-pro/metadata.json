@@ -1,0 +1,6 @@
+{
+  "name": "DB Studio",
+  "description": "Professionelle Low-Code Datenbank- und Workflow-Suite mit visuellem Designer, Offline-Sync und Multi-Framework Codegenerator (React, Angular Standalone & Signals, .NET C#, PHP, Tauri).",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

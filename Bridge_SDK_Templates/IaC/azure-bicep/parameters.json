@@ -1,0 +1,33 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "environment": {
+      "value": "prod"
+    },
+    "projectName": {
+      "value": "dbstudio-app"
+    },
+    "containerImage": {
+      "value": "mcr.microsoft.com/azuredocs/aci-helloworld:latest"
+    },
+    "containerPort": {
+      "value": 5000
+    },
+    "cpu": {
+      "value": "0.5"
+    },
+    "memory": {
+      "value": "1.0Gi"
+    },
+    "enableMySQL": {
+      "value": true
+    },
+    "mysqlAdminLogin": {
+      "value": "dbadmin"
+    },
+    "mysqlAdminPassword": {
+      "value": "SuperSecretPassw0rd2026!"
+    }
+  }
+}

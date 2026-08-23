@@ -1,0 +1,34 @@
+# Dependencies
+node_modules/
+**/node_modules/
+Shared_Dependencies/
+
+# Rust & Tauri Builds
+target/
+**/target/
+src-tauri/target/
+**/src-tauri/target/
+
+# Build artifacts & Binaries
+dist/
+**/dist/
+build/
+**/build/
+bin/
+obj/
+*.exe
+*.msi
+
+# Local Generated Projects & Access Uploads
+Projects/
+.access_migration/
+*.zip
+*.db
+*.sqlite
+*.log
+
+# IDE & OS Files
+.DS_Store
+Thumbs.db
+.vscode/*
+!.vscode/settings.json

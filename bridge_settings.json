@@ -1,0 +1,56 @@
+{
+  "projectsDir": "C:\\_DEV\\dbstudio_bridge\\Projects",
+  "sharedDependenciesDir": "C:\\_DEV\\dbstudio_bridge\\Shared_Dependencies",
+  "bridgeServerPort": 5050,
+  "defaultBackendPort": 5000,
+  "defaultFrontendPort": 3000,
+  "portConflictStrategy": "auto_increment",
+  "allowedOrigins": [
+    "http://localhost:3000",
+    "http://localhost:5050",
+    "http://localhost:5173",
+    "http://127.0.0.1:3000",
+    "http://127.0.0.1:5050",
+    "http://127.0.0.1:5173",
+    "https://dbstudio.app",
+    "*.europe-west2.run.app",
+    "*.run.app",
+    "https://ais-dev-rvot5ww2ueyw3nrbl7472l-212315388767.europe-west2.run.app"
+  ],
+  "allowPublicOrigin": false,
+  "securityToken": "bridge_sec_5b2qykgm7l",
+  "git": {
+    "enabled": true,
+    "autoInit": true,
+    "autoCommit": true,
+    "commitMessageTemplate": "Auto-deploy from DB Studio: {projectId} at {timestamp}",
+    "defaultRemote": "",
+    "personalAccessToken": "",
+    "github": {
+      "token": "",
+      "defaultOrg": ""
+    },
+    "gitlab": {
+      "token": "",
+      "serverUrl": "https://gitlab.com",
+      "defaultNamespace": ""
+    }
+  },
+  "ftp": {
+    "enabled": false,
+    "protocol": "sftp",
+    "host": "",
+    "port": 22,
+    "username": "",
+    "password": "",
+    "remotePath": "/var/www/dbstudio_app",
+    "autoDeployOnBuild": false
+  },
+  "autoStartOnBoot": false,
+  "minimizeToTray": true,
+  "enableRealtimeTelemetry": true,
+  "relay": {
+    "enabled": true,
+    "relayUrl": "https://dbstudiopro.edv-knowhow.at/api/bridge_relay.php"
+  }
+}

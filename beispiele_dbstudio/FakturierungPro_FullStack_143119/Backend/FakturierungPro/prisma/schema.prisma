@@ -1,0 +1,173 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Kunden {
+  Id Int @id @default(autoincrement())
+  KundenNr String @unique
+  Firmenname String 
+  Ansprechpartner String 
+  Email String 
+  Telefon String 
+  Strasse String 
+  plz String 
+  Ort String 
+  UStIdNr String 
+  ZahlungszielTage Int 
+  Status String 
+  angebote Angebote? @relation("Rel_Kunden_Angebote", fields: [Id], references: [KundenId])
+  auftraege Auftraege? @relation("Rel_Kunden_Auftraege", fields: [Id], references: [KundenId])
+  rechnungen Rechnungen? @relation("Rel_Kunden_Rechnungen", fields: [Id], references: [KundenId])
+  mahnungen Mahnungen? @relation("Rel_Kunden_Mahnungen", fields: [Id], references: [KundenId])
+  gutschriften Gutschriften? @relation("Rel_Kunden_Gutschriften", fields: [Id], references: [KundenId])
+}
+
+model Artikel {
+  Id Int @id @default(autoincrement())
+  ArtikelNr String @unique
+  Bezeichnung String 
+  Kategorie String 
+  Einzelpreis Float 
+  SteuerSatz Int 
+  Einheit String 
+  Lagerbestand Int 
+  angebotspositionen Angebotspositionen? @relation("Rel_Artikel_Angebotspositionen", fields: [Id], references: [ArtikelId])
+  auftragspositionen Auftragspositionen? @relation("Rel_Artikel_Auftragspositionen", fields: [Id], references: [ArtikelId])
+  rechnungspositionen Rechnungspositionen? @relation("Rel_Artikel_Rechnungspositionen", fields: [Id], references: [ArtikelId])
+  gutschriftpositionen Gutschriftpositionen? @relation("Rel_Artikel_Gutschriftpositionen", fields: [Id], references: [ArtikelId])
+}
+
+model Angebote {
+  Id Int @id @default(autoincrement())
+  AngebotsNr String @unique
+  KundenId Int 
+  Datum DateTime 
+  GueltigBis DateTime 
+  Status String 
+  NettoBetrag Float 
+  BruttoBetrag Float 
+  Bemerkung String 
+  kundens Kunden[] @relation("Rel_Kunden_Angebote")
+  angebotspositionen Angebotspositionen? @relation("Rel_Angebote_Angebotspositionen", fields: [Id], references: [AngebotsId])
+  auftraege Auftraege? @relation("Rel_Angebote_Auftraege", fields: [Id], references: [AngebotsId])
+}
+
+model Angebotspositionen {
+  Id Int @id @default(autoincrement())
+  AngebotsId Int 
+  ArtikelId Int 
+  Menge Float 
+  Einzelpreis Float 
+  RabattProzent Float 
+  GesamtNetto Float 
+  angebotes Angebote[] @relation("Rel_Angebote_Angebotspositionen")
+  artikels Artikel[] @relation("Rel_Artikel_Angebotspositionen")
+}
+
+model Auftraege {
+  Id Int @id @default(autoincrement())
+  AuftragsNr String @unique
+  AngebotsId Int 
+  KundenId Int 
+  AuftragsDatum DateTime 
+  LieferDatum DateTime 
+  Status String 
+  NettoBetrag Float 
+  BruttoBetrag Float 
+  kundens Kunden[] @relation("Rel_Kunden_Auftraege")
+  angebotes Angebote[] @relation("Rel_Angebote_Auftraege")
+  auftragspositionen Auftragspositionen? @relation("Rel_Auftraege_Auftragspositionen", fields: [Id], references: [AuftragsId])
+  rechnungen Rechnungen? @relation("Rel_Auftraege_Rechnungen", fields: [Id], references: [AuftragsId])
+}
+
+model Auftragspositionen {
+  Id Int @id @default(autoincrement())
+  AuftragsId Int 
+  ArtikelId Int 
+  Menge Float 
+  Einzelpreis Float 
+  GesamtNetto Float 
+  auftraeges Auftraege[] @relation("Rel_Auftraege_Auftragspositionen")
+  artikels Artikel[] @relation("Rel_Artikel_Auftragspositionen")
+}
+
+model Rechnungen {
+  Id Int @id @default(autoincrement())
+  RechnungsNr String @unique
+  AuftragsId Int 
+  KundenId Int 
+  RechnungsDatum DateTime 
+  FaelligDatum DateTime 
+  ZahlungsStatus String 
+  NettoBetrag Float 
+  MwStBetrag Float 
+  BruttoBetrag Float 
+  OffenerBetrag Float 
+  SkontoProzent Float 
+  kundens Kunden[] @relation("Rel_Kunden_Rechnungen")
+  auftraeges Auftraege[] @relation("Rel_Auftraege_Rechnungen")
+  rechnungspositionen Rechnungspositionen? @relation("Rel_Rechnungen_Rechnungspositionen", fields: [Id], references: [RechnungsId])
+  mahnungen Mahnungen? @relation("Rel_Rechnungen_Mahnungen", fields: [Id], references: [RechnungsId])
+  gutschriften Gutschriften? @relation("Rel_Rechnungen_Gutschriften", fields: [Id], references: [RechnungsId])
+}
+
+model Rechnungspositionen {
+  Id Int @id @default(autoincrement())
+  RechnungsId Int 
+  ArtikelId Int 
+  PositionNr Int 
+  Menge Float 
+  Einzelpreis Float 
+  SteuerSatz Int 
+  GesamtNetto Float 
+  rechnungens Rechnungen[] @relation("Rel_Rechnungen_Rechnungspositionen")
+  artikels Artikel[] @relation("Rel_Artikel_Rechnungspositionen")
+}
+
+model Mahnungen {
+  Id Int @id @default(autoincrement())
+  MahnungsNr String @unique
+  RechnungsId Int 
+  KundenId Int 
+  MahnDatum DateTime 
+  Mahnstufe String 
+  Mahngebuehr Float 
+  Verzugszinsen Float 
+  FaelligBis DateTime 
+  Status String 
+  kundens Kunden[] @relation("Rel_Kunden_Mahnungen")
+  rechnungens Rechnungen[] @relation("Rel_Rechnungen_Mahnungen")
+}
+
+model Gutschriften {
+  Id Int @id @default(autoincrement())
+  GutschriftNr String @unique
+  RechnungsId Int 
+  KundenId Int 
+  Datum DateTime 
+  Status String 
+  NettoBetrag Float 
+  MwStBetrag Float 
+  BruttoBetrag Float 
+  Grund String 
+  kundens Kunden[] @relation("Rel_Kunden_Gutschriften")
+  rechnungens Rechnungen[] @relation("Rel_Rechnungen_Gutschriften")
+  gutschriftpositionen Gutschriftpositionen? @relation("Rel_Gutschriften_Gutschriftpositionen", fields: [Id], references: [GutschriftId])
+}
+
+model Gutschriftpositionen {
+  Id Int @id @default(autoincrement())
+  GutschriftId Int 
+  ArtikelId Int 
+  Menge Float 
+  Einzelpreis Float 
+  GesamtNetto Float 
+  gutschriftens Gutschriften[] @relation("Rel_Gutschriften_Gutschriftpositionen")
+  artikels Artikel[] @relation("Rel_Artikel_Gutschriftpositionen")
+}
+

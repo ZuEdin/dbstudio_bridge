@@ -1,0 +1,16 @@
+{
+  "name": "fakturierungpro-tauri-desktop",
+  "version": "1.0.0",
+  "description": "Desktop version of FakturierungPro with Tauri",
+  "scripts": {
+    "tauri": "tauri",
+    "dev": "npm run build && tauri dev",
+    "build": "node copy-dist.js",
+    "tauri:build": "npm run build && tauri build",
+    "frontend:install": "cd ../../Frontend && npm install",
+    "frontend:build": "cd ../../Frontend && npm run build"
+  },
+  "devDependencies": {
+    "@tauri-apps/cli": "^1.5.0"
+  }
+}

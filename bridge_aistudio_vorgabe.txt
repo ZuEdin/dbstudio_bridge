@@ -1,0 +1,56 @@
+Damit der im Browser generierte Softwarecode (z. B. C# .NET 10 Web-API oder Node.js Backend) per Bridge-Agent direkt auf Ihrem lokalen PC empfangen, gebaut, gestartet und überwacht werden kann, muss die Bridge als schlanker lokaler Dienst (CLI/Daemon z. B. in Node.js, Go oder Rust) fungieren.
+Hier ist die genaue Übersicht der 6 Kernaufgaben, die die Bridge übernehmen muss:
+1. Kommunikationsschicht & Empfang (Transport Layer)
+Lokaler HTTP/WebSocket-Server: Die Bridge lauscht lokal auf einem Port (z. B. http://localhost:5050 oder ws://localhost:5050).
+Payload-Empfang:
+ZIP-Stream: Entgegennahme des generierten Projekts als .zip (Multi-Part-Upload oder Base64-JSON) und Entpacken im Zielordner (z. B. ~/Projects/DBStudioBackend).
+Delta-Sync (Optional): Nur geänderte Dateien empfangen und gezielt überschreiben, um Build-Zeiten zu minimieren.
+CORS & Autorisierung:
+Erlaubt Anfragen der Web-App (Access-Control-Allow-Origin).
+Ein geheimer Sicherheitstoken (X-Bridge-Token), damit fremde Webseiten im Browser keine lokalen Befehle auf Ihrem PC ausführen können.
+2. Umgebungsprüfung & Toolchain-Validierung (Prerequisites Check)
+Die Bridge prüft vor dem Start, ob die benötigten Compiler/Runtimes auf Ihrem Rechner installiert sind:
+C# / .NET: Führt dotnet --version aus (z. B. .NET 8, 9 oder 10 SDK vorhanden?).
+Node.js / NPM: Führt node -v und npm -v aus.
+Docker (falls DB-Container benötigt werden): Prüft docker info.
+Rückmeldung an die Web-App, falls ein SDK fehlt, inkl. Installationsanleitung.
+3. Dependency-Resolution & Build (Kompilierung)
+Paketwiederherstellung:
+.NET: dotnet restore
+Node.js: npm install
+Build-Kompilierung:
+.NET: dotnet build --no-incremental oder dotnet publish
+Node/Vite: npm run build
+Log-Streaming in Echtzeit: Standard Output (stdout) und Fehlermeldungen (stderr) des Compilers werden per WebSocket live an die Web-Oberfläche gestreamt, damit Sie Build-Fehler direkt im Browser sehen.
+4. Prozess-Management & Lifecycle (Run / Stop / Restart)
+Prozess-Steuerung: Startet die erzeugte Anwendung als isolierten Sub-Prozess (child_process.spawn / ProcessStartInfo):
+.NET: dotnet run (z. B. auf Port 5001 oder dynamischem Port)
+Node.js: node dist/server.cjs
+Port-Konflikt-Erkennung: Prüft, ob der Ziel-Port bereits belegt ist, und beendet ggf. alte Instanzen (Process Kill per PID).
+Hot-Reload / Restart: Ermöglicht das Stoppen (SIGINT/SIGTERM) und den sofortigen Neustart, wenn im Studio neuer Code generiert wurde.
+5. Datenbank-Vorbereitung (Migrations & Setup)
+SQLite / LocalDB: Erstellt automatisch das lokale Verzeichnis und setzt Zugriffsrechte.
+PostgreSQL / SQL Server: Führt beim ersten Start die generierten SQL-Migrationsskripte oder Entity-Framework-Migrationen (dotnet ef database update) aus.
+6. Health-Check & Reverse-Proxy / Telemetrie
+Status-Feedback: Sendet PING/HEALTH-Heartbeats an das Studio (CPU-Last, RAM-Verbrauch, Laufzeit-Status RUNNING / ERROR).
+Live-Link: Meldet die lokale URL (z. B. http://localhost:5001/swagger oder /api/health) zurück an das Studio, damit Sie mit einem Klick das laufende Backend testen können.
+💡 Architektur-Schema
+code
+Code
+┌─────────────────────────┐          HTTP POST / WebSocket (ZIP + Token)          ┌──────────────────────────────────┐
+│  Browser / Studio UI    │ ────────────────────────────────────────────────────► │  Lokale Bridge (localhost:5050)  │
+│  (DB Studio Generator)  │ ◄──────────────────────────────────────────────────── │  (Node.js / .NET CLI Tool)       │
+└─────────────────────────┘              Live Build-Logs & Prozess-Status         └────────────────┬─────────────────┘
+                                                                                                   │
+                                                                                 1. Extrahieren nach C:/Projects/App
+                                                                                 2. dotnet restore && dotnet build
+                                                                                 3. dotnet run (PID 14208)
+                                                                                                   ▼
+                                                                                  ┌──────────────────────────────────┐
+                                                                                  │  Laufendes Backend (Port 5001)   │
+                                                                                  │  (REST API / Swagger / Webhooks) │
+                                                                                  └──────────────────────────────────┘
+🚀 Nächste Schritte: Wie möchten Sie fortfahren?
+Fertiges Bridge-CLI-Skript erstellen: Soll ich ein ausführbares Node.js- oder C#-Bridge-Skript generieren, das Sie mit einem Befehl (npx dbstudio-bridge oder dotnet run) lokal starten können?
+1-Klick-Download des Bridge-Pakets im UI: Die Download-Funktion im Studio um ein vorgefertigtes bridge-runner.zip (inkl. run-bridge.bat / run-bridge.sh) erweitern?
+Erweiterung des Live-Monitorings: Die WebSocket-Anbindung zwischen Studio-UI und lokaler Bridge für Live-Terminal-Streaming implementieren?
